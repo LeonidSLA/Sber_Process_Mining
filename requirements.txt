@@ -7,12 +7,15 @@ scipy>=1.4.1
 pydotplus>=2.0.2
 graphviz>=0.13.2
 plotly>=4.9.0
-IPython
+IPython~=7.25.0
 # needed for IPython:
-matplotlib
+matplotlib~=3.4.2
 # needed for plotly:
 nbformat>=4.2.0
 
 
 # ML
 scikit-learn>=0.23.2
+torch~=1.9.0
+sberpm~=1.2.0
+setuptools~=47.1.0
