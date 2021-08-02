@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader
 
 from .word2vec_dataset import Word2VecDataset
 
-DEFAULT_LR_FOR_SGD = 1e-2
+DEFAULT_LR_FOR_ADAM = 1e-3
 KARPATHY_CONSTANT = 3e-4
 
 
@@ -24,7 +24,7 @@ def train(w2v_dataset: Word2VecDataset,
     data_loader = DataLoader(w2v_dataset,
                              batch_size=batch_size,
                              shuffle=shuffle)
-    optimizer = optim.SGD(model.parameters(), lr=DEFAULT_LR_FOR_SGD) \
+    optimizer = optim.Adam(model.parameters(), lr=DEFAULT_LR_FOR_ADAM) \
         if optimizer_ is None else optimizer_(model.parameters(),
                                               **optimizer_params)
 
