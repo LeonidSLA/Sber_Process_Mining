@@ -1,40 +1,60 @@
 import torch
-from torch import nn
-import torch.nn.functional as F
+import torch.nn as nn
 
 
-class SkipGramModel(nn.Module):
-    """Skip-Gram model, reference to github.com/PengFoo"""
+class CBOWModel(nn.Module):
+    """Base CBOW model\n
+    Inspired by github.com/goddoe"""
+    PADDING_IDX = 0
+
     def __init__(self,
                  vocab_size: int,
-                 emb_dim: int,
-                 padding_idx: int = 0):
-        super(SkipGramModel, self).__init__()
+                 emb_dim: int):
+        """
+
+        Parameters
+        ----------
+        vocab_size : vocabulary size
+        emb_dim : embedding size
+        """
+        super(CBOWModel, self).__init__()
         self.vocab_size = vocab_size
         self.emb_dim = emb_dim
-        self.u_embeddings = nn.Embedding(vocab_size, emb_dim, padding_idx)
-        self.v_embeddings = nn.Embedding(vocab_size, emb_dim, padding_idx)
+        self.embeddings = nn.Embedding(vocab_size,
+                                       emb_dim,
+                                       self.PADDING_IDX,
+                                       max_norm=1)
+        self.linear_layer = nn.Linear(emb_dim, vocab_size)
         self._init_embeddings()
 
     def _init_embeddings(self):
+        """
+        Initializing weights
+
+        Returns
+        -------
+
+        """
         initrange = 0.5 / self.emb_dim
-        self.u_embeddings.weight.data.uniform_(-initrange, initrange)
-        self.v_embeddings.weight.data.uniform_(0, 0)
+        self.embeddings.weight.data.uniform_(-initrange, initrange)
 
-    def forward(self, pos_u, pos_v, neg_v):
-        assert pos_u.size() == pos_v.size()
-        # [batch_size x emb_dim]
-        emb_u = self.u_embeddings(pos_u)
-        # [batch_size x emb_dim]
-        emb_v = self.v_embeddings(pos_v)
-        # [batch_size x neg_sample_size x emb_dim]
-        emb_neg = self.v_embeddings(neg_v)
+    def forward(self, input_):
+        """
 
-        pos_score = torch.mul(emb_u, emb_v).squeeze()
-        pos_score = torch.sum(pos_score, dim=1)
-        pos_score = F.logsigmoid(pos_score)
+        Parameters
+        ----------
+        input_ : [batch_size x seq_len]
 
-        neg_score = torch.bmm(emb_neg, emb_u.unsqueeze(2)).squeeze()
-        neg_score = F.logsigmoid(-neg_score)
+        Returns
+        -------
+        output_distribution : torch.Tensor
+        """
+        # [batch_size x 2 * window_size x emb_dim]
+        inp_embeds = self.embeddings(input_)
+        # [batch_size x emb_size]
+        aggregated_embeds = torch.sum(inp_embeds, dim=1)
+        # [batch_size x vocab_size]
+        # word_dist = F.log_softmax(self.linear_layer(aggregated_embeds), dim=1)
+        logits = self.linear_layer(aggregated_embeds)
 
-        return -1 * (torch.sum(pos_score) + torch.sum(neg_score))
+        return logits
