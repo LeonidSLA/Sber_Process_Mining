@@ -47,7 +47,8 @@ class CBOWModel(nn.Module):
 
         Returns
         -------
-        output_distribution : torch.Tensor
+        output_distribution :
+            torch.Tensor
         """
         # [batch_size x 2 * window_size x emb_dim]
         inp_embeds = self.embeddings(input_)
@@ -58,3 +59,26 @@ class CBOWModel(nn.Module):
         logits = self.linear_layer(aggregated_embeds)
 
         return logits
+
+    def get_embeddings(self,
+                       is_numpy: bool = True):
+        """
+        Get embeddings
+
+        Parameters
+        ----------
+        is_numpy : use numpy representation or not
+
+        Returns
+        -------
+        Embeddings :
+            Union[torch.Tensor, np.array]
+        """
+        embds = None
+        for name, param in self.embeddings.named_parameters():
+            if name == "weight":
+                embds = param
+        if is_numpy:
+            return embds.data.numpy()
+        else:
+            return embds.data

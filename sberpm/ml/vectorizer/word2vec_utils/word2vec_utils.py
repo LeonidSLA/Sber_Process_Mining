@@ -42,6 +42,8 @@ class Word2VecVocabulary:
             self.idx2token[tmp_pad_token_idx] = not_pad_token_with_pad_token_idx
             self.idx2token[pad_token_idx] = pad_token
         self.token2idx = {token: idx for idx, token in self.idx2token.items()}
+        self.token2idx = dict(sorted(self.token2idx.items(),
+                                     key=lambda item: item[1]))
         self.size = len(self.token2idx)
 
     @staticmethod

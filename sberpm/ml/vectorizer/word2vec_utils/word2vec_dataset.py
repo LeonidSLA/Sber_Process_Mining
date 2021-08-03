@@ -26,7 +26,7 @@ class Word2VecDataset(Dataset):
 
         Parameters
         ----------
-        corpus : iterable of sentences
+        corpus : iterable of sentences or str
         corpus_path : path to file
         tokenizer : tokenizer
         context_size : window size
@@ -45,13 +45,22 @@ class Word2VecDataset(Dataset):
             self.corpus = corpus
         self.pad_token = pad_token
         self.pad_idx = PAD_TOKEN_INDEX
-        self.tokenized_corpus = Word2VecDataset \
-            ._tokenize_corpus(self.corpus, tokenizer=tokenizer)
+        if isinstance(self.corpus, str):
+            self.tokenized_corpus = Word2VecDataset \
+                ._tokenize_corpus(self.corpus, tokenizer=tokenizer)
+        elif isinstance(self.corpus, List):
+            self.tokenized_corpus = corpus
         self.vocab = Word2VecVocabulary(self.tokenized_corpus,
                                         min_word=min_word,
                                         pad_token=pad_token,
                                         pad_token_idx=pad_token_idx)
         self.data = []
+        max_len = max(map(len, self.tokenized_corpus))
+        assert max_len >= 2 * context_size, (
+            "There is no data after preprocessing, "
+            "because 2 * context_size > max_len of sequence, "
+            "please reduce context_size"
+        )
         for line in self.tokenized_corpus:
             for i in range(context_size, len(line) - context_size):
                 context = [self.vocab.token2idx[line[i + d]]
