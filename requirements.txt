@@ -16,5 +16,5 @@ nbformat>=4.2.0
 
 # ML
 scikit-learn>=0.23.2
-torch~=1.6.0
+torch>=1.6.0
 setuptools~=47.1.0
