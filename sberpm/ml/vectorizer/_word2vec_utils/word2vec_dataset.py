@@ -4,6 +4,7 @@ import string
 
 from torch.utils.data import Dataset
 import torch
+import pandas as pd
 
 from .word2vec_utils import Word2VecVocabulary, Word2VecException
 
@@ -48,7 +49,8 @@ class Word2VecDataset(Dataset):
         if isinstance(self.corpus, str):
             self.tokenized_corpus = Word2VecDataset \
                 ._tokenize_corpus(self.corpus, tokenizer=tokenizer)
-        elif isinstance(self.corpus, List):
+        elif isinstance(self.corpus, List) \
+                or isinstance(self.corpus, pd.Series):
             self.tokenized_corpus = corpus
         self.vocab = Word2VecVocabulary(self.tokenized_corpus,
                                         min_word=min_word,
