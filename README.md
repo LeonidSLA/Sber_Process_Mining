@@ -35,6 +35,12 @@ To find out how to work with SberPM, see [tutorials](https://github.com/SberProc
 
 # Contacts
 If you have any questions or suggestions, feel free to contact us!
-- Process Mining Team: @danilsmith @sergkuzn @annasverk @mrgsv @morphious24 @sashakorekov
+- Process Mining Team: 
+-- [Danil Smetanev](https://github.com/danilsmith) 
+-- [Sergey Kuznetsov](https://github.com/sergkuzn) 
+-- [Anna Sverkunova](https://github.com/annasverk) 
+-- [Arsenii Margasov] (https://github.com/mrgsv) 
+-- [Artem Glagolev] (https://github.com/morphious24) 
+-- [Aleksandr Korekov] (https://github.com/sashakorekov)
 - Danil Smetanev: Smetanev.D.M@sberbank.ru
 - Sergei Kuznetsov: Kuznetsov.S.Nikolaevi@sberbank.ru
