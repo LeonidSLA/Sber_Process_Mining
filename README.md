@@ -35,6 +35,6 @@ To find out how to work with SberPM, see [tutorials](https://github.com/SberProc
 
 # Contacts
 If you have any questions or suggestions, feel free to contact us!
-- Sber Process Mining Team: process_mining@sberbank.ru
+- Process Mining Team: @danilsmith @sergkuzn @annasverk @mrgsv @morphious24 @sashakorekov
 - Danil Smetanev: Smetanev.D.M@sberbank.ru
 - Sergei Kuznetsov: Kuznetsov.S.Nikolaevi@sberbank.ru
