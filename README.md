@@ -41,4 +41,4 @@ If you have any questions or suggestions, feel free to contact us!
     - [Anna Sverkunova](https://github.com/annasverk) 
     - [Arsenii Margasov](https://github.com/mrgsv) 
     - [Artem Glagolev](https://github.com/morphious24) 
-    - [Aleksandr Korekov](https://github.com/sashakorekov)
+    - [Aleksandr Korekov](https://github.com/sashakorekov) (https://t.me/sashakorekov) 
