@@ -189,7 +189,7 @@ class Graph:
         Returns
         ----------
         nodes : list of Node
-            Key: node id, value: node object.
+        value: node object.
         """
         return list(self.nodes.values())
 
