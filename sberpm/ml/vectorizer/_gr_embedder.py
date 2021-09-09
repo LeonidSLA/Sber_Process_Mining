@@ -13,11 +13,6 @@ class GraphEmbedder:
     Similarity between i-th source and j-th destination vectors indicates
     a directed edge from vertex i to vertex j.
 
-    Parameters
-    ----------
-    _adj_m: np.ndarray, default=None
-        The adjacency matrix of a directed graph.
-
     Attributes
     ----------
     _adj_m: np.ndarray
@@ -26,6 +21,17 @@ class GraphEmbedder:
         Dictionary of key: int to value: node_id that maps vertices to original
         node_ids. _vtx_to_node[i] gives the node id of vertex i.
 
+    Examples
+    --------
+    >>> from sberpm import DataHolder
+    >>> from sberpm.miners import SimpleMiner
+    >>> from sberpm.ml.vectorizer import GraphEmbedder
+    >>> from sberpm.ml.vectorizer import katz_index, rooted_pr, \
+    >>> adamic_adar, common_neighbors, vertex_similarity
+    >>> vectorizer = GraphEmbedder()
+    >>> embeddings = vectorizer.transform(data_holder, SimpleMiner, \
+    >>> 10, katz_index, 2.5)
+    >>> nodes = GraphEmbedder.get_am2nodes()
    """
 
     def __init__(self):
@@ -103,7 +109,6 @@ class GraphEmbedder:
             vertex i.
             Similarity of vectors u_s[i] and u_t[j] for 0 <= i <= k and
             0 <= j <= k indicates a directed edge from vertex i to vertex j.
-
         """
 
         self._adj_m, self._vtx_to_node = self.create_adjacency(data_holder,
@@ -128,7 +133,7 @@ class GraphEmbedder:
         embeddings = u_s, u_t
         return embeddings
 
-    def get_embeddings2nodes(self) -> Dict:
+    def get_am2nodes(self) -> Dict:
         """
         Returns a dictionary mapping vertices in the adjacency matrix to
         nodes.
