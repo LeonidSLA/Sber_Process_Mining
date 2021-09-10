@@ -17,10 +17,13 @@ class GraphEmbedder:
     ----------
     _adj_m: np.ndarray
         The adjacency matrix of the directed graph.
-    _vtx_to_node: Dict
-        Dictionary of key: int to value: node_id that maps vertices to original
-        node_ids. _vtx_to_node[i] gives the node id of vertex i.
-
+    _vtx2node: Dict
+        Dictionary of key: int to value: node_object that maps vertices to
+        original nodes. _vtx_to_node[i] gives the node corresponding to vertex
+        i.
+    _node2vtx: Dict
+        Dictionary of key: node_object to value: int gives the adjacency matrix
+        row index corresponding to a certain node.
     Examples
     --------
     >>> from sberpm import DataHolder
@@ -31,16 +34,19 @@ class GraphEmbedder:
     >>> vectorizer = GraphEmbedder()
     >>> embeddings = vectorizer.transform(data_holder, SimpleMiner, \
     >>> 10, katz_index, 2.5)
-    >>> nodes = GraphEmbedder.get_am2nodes()
+    >>> vtx2nodes = vectorizer.get_vtx2nodes()
+    >>> nodes2vtx = vectorizer.get_node_obj2vtx()
+    >>> node_id2vtx = vectorizer.get_node_id2vtx()
    """
 
     def __init__(self):
-        self._vtx_to_node = None
+        self._vtx2node = None
         self._adj_m = None
+        self._node2vtx = None
 
     @staticmethod
     def create_adjacency(data_holder, miner: "Data Miner") \
-            -> Tuple[np.ndarray, Dict]:
+            -> Tuple[np.ndarray, Dict, Dict]:
         """
         Uses a received miner on the data holder and computes the adjacency
         matrix of the resulting graph.
@@ -54,9 +60,10 @@ class GraphEmbedder:
 
         Returns
         -------
-        Tuple[np.ndarray, Dict]
+        Tuple[np.ndarray, Dict, Dict]
             Returns a computed adjacency matrix and a dictionary mapping
-            vertices in the adjacency matrix to original nodes ids in the graph.
+            vertices in the adjacency matrix to original nodes ids in the graph
+            and a dictionary mapping nodes to vertices in the adjacency matrix.
 
         """
         mr = miner(data_holder)
@@ -73,10 +80,10 @@ class GraphEmbedder:
             src_i = node2vtx[src]
             dst_i = node2vtx[dst]
             adj_m[src_i][dst_i] += 1
-        return adj_m, vtx2node
+        return adj_m, vtx2node, node2vtx
 
     def transform(self, data_holder, data_miner=SimpleMiner,
-                  k: int = 0, prox_func: Callable = katz_index, *args):
+                  k: int = -1, prox_func: Callable = katz_index, *args):
         """
         Gives embeddings of nodes in the graph extracted by a received miner
         from the data holder.
@@ -87,7 +94,7 @@ class GraphEmbedder:
             A DataHolder with the log data.
         data_miner: default=SimpleMiner:
             Data miner that is going to be used.
-        k: int, default=0
+        k: int, default = -1
             Dimension to reduce the graph dimension to.
         prox_func: Callable, default = katz_index
             Any proximity function that must return two matrix polynomials m_g
@@ -110,9 +117,11 @@ class GraphEmbedder:
             Similarity of vectors u_s[i] and u_t[j] for 0 <= i <= k and
             0 <= j <= k indicates a directed edge from vertex i to vertex j.
         """
-
-        self._adj_m, self._vtx_to_node = self.create_adjacency(data_holder,
-                                                               data_miner)
+        if k == -1:
+            # heuristic, biggest square not exceeding n
+            k = int(np.floor(np.sqrt(self._adj_m.shape[0])) ** 2)
+        self._adj_m, self._vtx2node, self._node2vtx = self.create_adjacency(
+            data_holder, data_miner)
         assert (0 < k < self._adj_m.shape[0]), (
             "Reduced dimension should between 0 and matrix dimensions"
         )
@@ -131,9 +140,12 @@ class GraphEmbedder:
         u_s *= s
         u_t *= s
         embeddings = u_s, u_t
+        # now only k vectors are available, so we update accordingly
+        self._vtx2node = self._vtx2node[:k]
+        self._node2vtx = {v: k for k, v in enumerate(self._vtx2node)}
         return embeddings
 
-    def get_am2nodes(self) -> Dict:
+    def get_vtx2nodes(self) -> Dict:
         """
         Returns a dictionary mapping vertices in the adjacency matrix to
         nodes.
@@ -143,4 +155,29 @@ class GraphEmbedder:
         Dict:
         key: int, value: node
         """
-        return self._vtx_to_node
+        return self._vtx2node
+
+    def get_node_obj2vtx(self) -> Dict:
+        """
+        Returns a dictionary mapping nodes (node objects)
+         to vertices in the adjacency matrix.
+
+        Returns
+        -------
+        Dict:
+        key: node (node object), value: int (vertex)
+        """
+        return self._node2vtx
+
+    def get_node_id2vtx(self) -> Dict:
+        """
+        Returns a dictionary mapping nodes (node ids, strings) to
+        vertices in the adjacency matrix.
+
+        Returns
+        -------
+        Dict:
+        key: node_id (str), value: int (vertex)
+        """
+        return {key.id: val for key, val in self._node2vtx.items()}
+
