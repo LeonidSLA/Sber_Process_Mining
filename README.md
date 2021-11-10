@@ -29,6 +29,7 @@ git clone https://github.com/SberProcessMining/Sber_Process_Mining.git
 cd Sber_Process_Mining
 pip install .
 ```
+Additionally, you might need to install graphviz executables and add the path to the executables to PATH variable: https://graphviz.org/download/
 
 # Examples
 To find out how to work with SberPM, see [tutorials](https://github.com/SberProcessMining/Sber_Process_Mining/tree/master/tutorials).
