@@ -21,7 +21,7 @@ from .._holder import DataHolder
 from ..metrics import ActivityMetric, TransitionMetric, IdMetric, TraceMetric, UserMetric
 from copy import deepcopy
 from math import ceil
-from typing import Union, Optional, List, Tuple, NoReturn, Any
+from typing import Union, Optional, List, Tuple, Any
 
 
 def get_continuous_color(colorscale: List[list], intermed: float):
@@ -122,7 +122,7 @@ class ChartPainter:
              height: Optional[int] = None,
              width: Optional[int] = None,
              font_size: int = 12,
-             **kwargs: Optional[Any]) -> NoReturn:
+             **kwargs: Optional[Any]) -> None:
         """
         Plots a histogram.
 
@@ -261,7 +261,7 @@ class ChartPainter:
             height: Optional[int] = None,
             width: Optional[int] = None,
             font_size: int = 12,
-            **kwargs: Optional[Any]) -> NoReturn:
+            **kwargs: Optional[Any]) -> None:
         """
         Makes a bar chart.
 
@@ -516,7 +516,7 @@ class ChartPainter:
             height: Optional[int] = None,
             width: Optional[int] = None,
             font_size: int = 12,
-            **kwargs: Optional[Any]) -> NoReturn:
+            **kwargs: Optional[Any]) -> None:
         """
         Makes a box plot.
 
@@ -638,7 +638,7 @@ class ChartPainter:
                 height: Optional[int] = None,
                 width: Optional[int] = None,
                 font_size: int = 12,
-                **kwargs: Optional[Any]) -> NoReturn:
+                **kwargs: Optional[Any]) -> None:
         """
         Makes a scatter plot.
 
@@ -824,7 +824,7 @@ class ChartPainter:
              height: Optional[int] = None,
              width: Optional[int] = None,
              font_size: int = 12,
-             **kwargs: Optional[Any]) -> NoReturn:
+             **kwargs: Optional[Any]) -> None:
         """
         Makes a line plot.
 
@@ -988,7 +988,7 @@ class ChartPainter:
             height: Optional[int] = None,
             width: Optional[int] = None,
             font_size: int = 12,
-            **kwargs: Optional[Any]) -> NoReturn:
+            **kwargs: Optional[Any]) -> None:
         """
         Makes a pie chart.
 
@@ -1130,7 +1130,7 @@ class ChartPainter:
                  height: Optional[int] = None,
                  width: Optional[int] = None,
                  font_size: int = 12,
-                 **kwargs: Optional[Any]) -> NoReturn:
+                 **kwargs: Optional[Any]) -> None:
         """
         Makes a sunburst plot.
 
@@ -1209,7 +1209,7 @@ class ChartPainter:
                 height: Optional[int] = None,
                 width: Optional[int] = None,
                 font_size: int = 12,
-                **kwargs: Optional[Any]) -> NoReturn:
+                **kwargs: Optional[Any]) -> None:
         """
         Makes a heatmap.
 
@@ -1295,7 +1295,7 @@ class ChartPainter:
                         height: Optional[int] = None,
                         width: Optional[int] = None,
                         font_size: int = 12,
-                        **kwargs: Optional[Any]) -> NoReturn:
+                        **kwargs: Optional[Any]) -> None:
         """
         Makes a density heatmap.
 
@@ -1406,7 +1406,7 @@ class ChartPainter:
               height: Optional[int] = None,
               width: Optional[int] = None,
               font_size: int = 12,
-              **kwargs: Optional[Any]) -> NoReturn:
+              **kwargs: Optional[Any]) -> None:
         """
         Makes a Gantt chart.
 
@@ -1511,7 +1511,7 @@ class ChartPainter:
                title: str = 'auto',
                height: Optional[int] = None,
                width: Optional[int] = None,
-               font_size: int = 12) -> NoReturn:
+               font_size: int = 12) -> None:
         """
         Makes a Pareto chart.
 
@@ -1618,7 +1618,7 @@ class ChartPainter:
                height: Optional[int] = None,
                width: Optional[int] = None,
                font_size: int = 10,
-               **kwargs: Optional[Any]) -> NoReturn:
+               **kwargs: Optional[Any]) -> None:
         """
         Makes a Sankey diagram.
 

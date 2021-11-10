@@ -25,6 +25,7 @@ class TextPreprocessing:
     >>> preprocessing = TextPreprocessing()
     >>> preprocessed_text = preprocessing.transform(data_holder)
     """
+
     def __init__(self, language: str = 'rus',
                  ngram: int = 1) -> None:
         self._ngram = ngram
