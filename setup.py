@@ -32,8 +32,10 @@ setuptools.setup(
               'sberpm.bpmn', 'sberpm.bpmn._bpmn_graph_to_file',
               'sberpm.metrics',
               'sberpm.miners',
-              'sberpm.ml', 'sberpm.ml.processes', 'sberpm.ml.vectorizer',
-              'sberpm.ml.reinforcement_learning',
+              'sberpm.ml', 'sberpm.ml.processes', 'sberpm.ml.reinforcement_learning',
+              'sberpm.ml.summarization', 'sberpm.ml.text',
+              'sberpm.ml.vectorizer', 'sberpm.ml.vectorizer._graph_embedding_utils',
+              'sberpm.ml.vectorizer._hope_vectorizer_utils', 'sberpm.ml.vectorizer._word2vec_utils',
               'sberpm.visual'
               ],
     classifiers=[
