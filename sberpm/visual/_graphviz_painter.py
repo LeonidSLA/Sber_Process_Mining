@@ -327,7 +327,13 @@ class GraphvizPainter:
         digraph : IPython.core.display.HTML
             Graph in HTML format.
         """
+        
+        """
+        not working in Databrick
         return HTML(self._digraph._repr_svg_())
+        """
+            
+        return self._digraph
 
     @staticmethod
     def _add_metrics_to_node_label(label, metrics):
